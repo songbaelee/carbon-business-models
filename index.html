@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Managing Carbon Value</title>
+  <style>
+    :root {
+      --bg: #f6f3ec;
+      --ink: #1f2a24;
+      --muted: #69746d;
+      --card: #fffaf1;
+      --line: #d9d0c1;
+      --accent: #2f6f4e;
+      --accent2: #a66f2c;
+      --soft: #e8efe7;
+      --dark: #17221c;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    header {
+      padding: 72px 7vw 56px;
+      background:
+        radial-gradient(circle at 80% 10%, rgba(47,111,78,.18), transparent 32%),
+        linear-gradient(135deg, #fbf7ef 0%, #edf3ea 100%);
+      border-bottom: 1px solid var(--line);
+    }
+    .eyebrow {
+      color: var(--accent);
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: .8rem;
+    }
+    h1 {
+      font-size: clamp(2.7rem, 7vw, 6rem);
+      line-height: .92;
+      margin: 18px 0 22px;
+      letter-spacing: -0.065em;
+      max-width: 920px;
+    }
+    .subtitle {
+      font-size: clamp(1.1rem, 2vw, 1.45rem);
+      color: var(--muted);
+      max-width: 780px;
+      margin-bottom: 30px;
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 42px;
+      max-width: 1120px;
+    }
+    .hero-card, .card, .module, .choice-panel {
+      background: rgba(255,250,241,.88);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: 0 14px 40px rgba(31,42,36,.06);
+    }
+    .hero-card { padding: 20px; min-height: 140px; }
+    .hero-card strong { display: block; font-size: 1.05rem; margin-bottom: 8px; }
+    .hero-card span { color: var(--muted); font-size: .95rem; }
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(246,243,236,.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+      padding: 12px 7vw;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+    }
+    nav a {
+      color: var(--ink);
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 999px;
+      white-space: nowrap;
+      font-size: .92rem;
+    }
+    nav a:hover { background: var(--soft); }
+    section { padding: 72px 7vw; }
+    .section-title {
+      max-width: 850px;
+      margin-bottom: 28px;
+    }
+    h2 {
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      line-height: 1;
+      margin: 0 0 16px;
+      letter-spacing: -0.045em;
+    }
+    h3 { margin: 0 0 10px; font-size: 1.35rem; }
+    p { margin: 0 0 14px; }
+    .lead { color: var(--muted); font-size: 1.15rem; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .card, .module, .choice-panel { padding: 26px; }
+    .big-number {
+      display: inline-flex;
+      width: 38px;
+      height: 38px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: var(--dark);
+      color: #fffaf1;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .model-card { cursor: pointer; transition: transform .18s ease, box-shadow .18s ease; }
+    .model-card:hover { transform: translateY(-3px); box-shadow: 0 18px 50px rgba(31,42,36,.1); }
+    .model-card.active { outline: 3px solid rgba(47,111,78,.35); background: #f8fff5; }
+    .tag {
+      display: inline-block;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 9px;
+      color: var(--muted);
+      font-size: .82rem;
+      margin: 3px 4px 3px 0;
+      background: rgba(255,255,255,.45);
+    }
+    .canvas {
+      background: #fffdf8;
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      padding: 28px;
+      margin-top: 24px;
+    }
+    .journey {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    .journey div {
+      background: var(--soft);
+      border-radius: 18px;
+      padding: 18px;
+      min-height: 138px;
+      position: relative;
+    }
+    .journey div:after {
+      content: "→";
+      position: absolute;
+      right: -13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--accent);
+      font-weight: 900;
+    }
+    .journey div:last-child:after { display: none; }
+    .slider-wrap { margin: 28px 0 8px; }
+    input[type="range"] { width: 100%; accent-color: var(--accent); }
+    .slider-labels { display: flex; justify-content: space-between; color: var(--muted); font-size: .9rem; }
+    .meter {
+      height: 18px;
+      border-radius: 999px;
+      background: #e7dfd1;
+      overflow: hidden;
+      margin: 18px 0;
+      border: 1px solid var(--line);
+    }
+    .meter-fill { height: 100%; width: 50%; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width .2s ease; }
+    .tradeoff-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 18px; }
+    .tradeoff { background: #fbf7ef; border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
+    .tradeoff strong { display: block; margin-bottom: 6px; }
+    footer { padding: 42px 7vw; color: var(--muted); border-top: 1px solid var(--line); }
+    @media (max-width: 900px) {
+      .hero-grid, .grid-3, .grid-2, .journey, .tradeoff-grid { grid-template-columns: 1fr; }
+      .journey div:after { display: none; }
+      section { padding: 52px 6vw; }
+      header { padding: 54px 6vw 44px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">Course 2 in the Carbon Education Series</div>
+    <h1>Managing Carbon Value</h1>
+    <p class="subtitle">An intuition-first guide to how organizations create, own, monetize, and finance future carbon value.</p>
+    <div class="hero-grid">
+      <div class="hero-card"><strong>Business Models</strong><span>Why is this organization participating in carbon markets?</span></div>
+      <div class="hero-card"><strong>Commercialization</strong><span>How much future carbon value should be monetized today?</span></div>
+      <div class="hero-card"><strong>Financing</strong><span>Who is willing to provide capital before carbon is delivered?</span></div>
+      <div class="hero-card"><strong>Putting It Together</strong><span>How do these decisions shape strategy and tradeoffs?</span></div>
+    </div>
+  </header>
+
+  <nav>
+    <a href="#series">Series</a>
+    <a href="#framework">Framework</a>
+    <a href="#models">Business Models</a>
+    <a href="#commercialization">Commercialization</a>
+    <a href="#financing">Financing</a>
+    <a href="#tradeoffs">Tradeoffs</a>
+  </nav>
+
+  <section id="series">
+<div class="section-title">
+<h2>Related Course</h2>
+<p class="lead">This website builds on an earlier project about agroforestry project economics.</p>
+<p><a href="https://songbaelee.github.io/agroforestry-carbon-finance/" target="_blank">Agroforestry Carbon Finance →</a></p>
+</div>
+</section>
+
+  <section id="framework">
+    <div class="section-title">
+      <h2>The core idea</h2>
+      <p class="lead">Carbon credits are future assets. Every carbon business is a different answer to the same question: what should we do with future carbon value?</p>
+    </div>
+    <div class="canvas">
+      <div class="journey">
+        <div><h3>Business Models</h3><p>Why is the organization participating in carbon markets?</p></div>
+        <div><h3>Commercialization</h3><p>How much future carbon value should be monetized today?</p></div>
+        <div><h3>Financing</h3><p>Who is willing to fund the project before credits exist?</p></div>
+        <div><h3>Putting It Together</h3><p>See how strategy changes across different business models.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="models">
+    <div class="section-title">
+      <h2>Three business models</h2>
+      <p class="lead">The simplest distinction is the role carbon plays in the organization. Click a model to see how commercialization and financing logic changes.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card model-card active" data-model="developer">
+        <h3>Carbon Business</h3>
+        <p>Carbon is the product.</p>
+        <p><span class="tag">developers</span><span class="tag">investment model</span><span class="tag">maximize carbon value</span></p>
+      </div>
+      <div class="card model-card" data-model="procurement">
+        <h3>Carbon Procurement</h3>
+        <p>Carbon is consumed by the buyer.</p>
+        <p><span class="tag">corporates</span><span class="tag">insetting</span><span class="tag">secure supply</span></p>
+      </div>
+      <div class="card model-card" data-model="enabled">
+        <h3>Carbon-Enabled Organization</h3>
+        <p>Carbon funds another mission.</p>
+        <p><span class="tag">TA providers</span><span class="tag">NGOs</span><span class="tag">cooperatives</span></p>
+      </div>
+    </div>
+    <div class="choice-panel" id="modelOutput" style="margin-top:18px;"></div>
+  </section>
+
+  <section id="commercialization">
+    <div class="section-title">
+      <h2>Commercialization</h2>
+      <p class="lead">Commercialization is the decision about how much future carbon value to monetize today, and how much upside to retain for later.</p>
+    </div>
+    <div class="card">
+      <h3>Move the strategy</h3>
+      <div class="slider-wrap">
+        <input id="monetizeSlider" type="range" min="0" max="100" value="50" />
+        <div class="slider-labels"><span>Monetize today</span><span>Retain future upside</span></div>
+      </div>
+      <div class="meter"><div class="meter-fill" id="meterFill"></div></div>
+      <div id="sliderText"></div>
+    </div>
+  </section>
+
+  <section id="financing">
+    <div class="section-title">
+      <h2>Financing</h2>
+      <p class="lead">Financing is not just debt. It is the question of how much future carbon value can support today's costs before credits are verified and sold.</p>
+    </div>
+    <div class="grid-3">
+      <div class="module"><h3>Advance buyer support</h3><p>Useful when a buyer wants secure future supply and is willing to share delivery risk.</p></div>
+      <div class="module"><h3>Investor capital</h3><p>Useful when a developer wants to retain upside but needs capital to build the project pipeline.</p></div>
+      <div class="module"><h3>Blended funding</h3><p>Useful when carbon supports a broader mission and cannot carry all early-stage risk alone.</p></div>
+    </div>
+  </section>
+
+  <section id="tradeoffs">
+    <div class="section-title">
+      <h2>Putting It Together</h2>
+      <p class="lead">Compare how different business models make different commercialization and financing decisions for the same underlying project.</p>
+    </div>
+    <div class="tradeoff-grid">
+      <div class="tradeoff"><strong>Cash today</strong><span>How much funding arrives before credits are delivered?</span></div>
+      <div class="tradeoff"><strong>Future upside</strong><span>How much value remains exposed to future prices?</span></div>
+      <div class="tradeoff"><strong>Risk transfer</strong><span>Who bears delivery, verification, and price risk?</span></div>
+      <div class="tradeoff"><strong>Control</strong><span>Who decides how credits, revenue, and mission outcomes are used?</span></div>
+    </div>
+  </section>
+
+  <footer>
+    Draft prototype. Built to test the conceptual spine before adding final page structure, charts, examples, and links.
+  </footer>
+
+  <script>
+    const modelData = {
+      developer: {
+        title: 'Carbon Business',
+        test: 'If carbon disappeared, the business would probably disappear.',
+        commercialization: 'Often balances early presales for capital with spot exposure to preserve upside.',
+        financing: 'Needs risk capital because costs arrive before verification and revenue.'
+      },
+      procurement: {
+        title: 'Carbon Procurement',
+        test: 'If carbon disappeared, the organization would still exist but would need another way to meet climate or supply-chain goals.',
+        commercialization: 'Often favors long-term certainty over market upside.',
+        financing: 'Can justify advance payments because credit supply has strategic value to the buyer.'
+      },
+      enabled: {
+        title: 'Carbon-Enabled Organization',
+        test: 'If carbon disappeared, the mission would remain but one funding source would shrink.',
+        commercialization: 'Often prioritizes predictable revenue over maximum price.',
+        financing: 'Often needs grants, concessional capital, or buyer support because carbon is serving a broader mission.'
+      }
+    };
+
+    const cards = document.querySelectorAll('.model-card');
+    const output = document.getElementById('modelOutput');
+    function renderModel(key) {
+      const d = modelData[key];
+      output.innerHTML = `
+        <h3>${d.title}</h3>
+        <p><strong>Simple test:</strong> ${d.test}</p>
+        <p><strong>Commercialization logic:</strong> ${d.commercialization}</p>
+        <p><strong>Financing logic:</strong> ${d.financing}</p>
+      `;
+      cards.forEach(c => c.classList.toggle('active', c.dataset.model === key));
+    }
+    cards.forEach(card => card.addEventListener('click', () => renderModel(card.dataset.model)));
+    renderModel('developer');
+
+    const slider = document.getElementById('monetizeSlider');
+    const fill = document.getElementById('meterFill');
+    const sliderText = document.getElementById('sliderText');
+    function renderSlider() {
+      const v = Number(slider.value);
+      fill.style.width = `${v}%`;
+      let label, text;
+      if (v < 25) {
+        label = 'Presale-heavy strategy';
+        text = 'More cash today. More delivery risk transferred. Less exposure to future upside.';
+      } else if (v < 55) {
+        label = 'Hybrid strategy';
+        text = 'Some early certainty, some retained upside. Often the practical middle path.';
+      } else if (v < 80) {
+        label = 'Offtake / delayed-sale strategy';
+        text = 'More certainty than pure spot sales, but less immediate funding than presales.';
+      } else {
+        label = 'Spot-exposed strategy';
+        text = 'Maximum future flexibility and upside, but the organization must fund more development risk itself.';
+      }
+      sliderText.innerHTML = `<h3>${label}</h3><p>${text}</p>`;
+    }
+    slider.addEventListener('input', renderSlider);
+    renderSlider();
+  </script>
+</body>
+</html>
