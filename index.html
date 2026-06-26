@@ -103,20 +103,7 @@
     p { margin: 0 0 14px; }
     .lead { color: var(--muted); font-size: 1.15rem; }
     .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
     .card, .module, .choice-panel { padding: 26px; }
-    .big-number {
-      display: inline-flex;
-      width: 38px;
-      height: 38px;
-      align-items: center;
-      justify-content: center;
-      border-radius: 999px;
-      background: var(--dark);
-      color: #fffaf1;
-      font-weight: 800;
-      margin-bottom: 16px;
-    }
     .model-card { cursor: pointer; transition: transform .18s ease, box-shadow .18s ease; }
     .model-card:hover { transform: translateY(-3px); box-shadow: 0 18px 50px rgba(31,42,36,.1); }
     .model-card.active { outline: 3px solid rgba(47,111,78,.35); background: #f8fff5; }
@@ -180,54 +167,15 @@
       margin: 3px 4px 3px 0;
       background: rgba(255,255,255,.45);
     }
-    .canvas {
-      background: #fffdf8;
-      border: 1px solid var(--line);
-      border-radius: 26px;
-      padding: 28px;
-      margin-top: 24px;
-    }
-    .journey {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-    }
-    .journey div {
-      background: var(--soft);
-      border-radius: 18px;
-      padding: 18px;
-      min-height: 138px;
-      position: relative;
-    }
-    .journey div:after {
-      content: "→";
-      position: absolute;
-      right: -13px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--accent);
-      font-weight: 900;
-    }
-    .journey div:last-child:after { display: none; }
     .slider-wrap { margin: 28px 0 8px; }
     input[type="range"] { width: 100%; accent-color: var(--accent); }
     .slider-labels { display: flex; justify-content: space-between; color: var(--muted); font-size: .9rem; }
-    .meter {
-      height: 18px;
-      border-radius: 999px;
-      background: #e7dfd1;
-      overflow: hidden;
-      margin: 18px 0;
-      border: 1px solid var(--line);
-    }
-    .meter-fill { height: 100%; width: 50%; background: linear-gradient(90deg, var(--accent), var(--accent2)); transition: width .2s ease; }
     .tradeoff-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 18px; }
     .tradeoff { background: #fbf7ef; border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
     .tradeoff strong { display: block; margin-bottom: 6px; }
     footer { padding: 42px 7vw; color: var(--muted); border-top: 1px solid var(--line); }
     @media (max-width: 900px) {
-      .hero-grid, .grid-3, .grid-2, .journey, .tradeoff-grid { grid-template-columns: 1fr; }
-      .journey div:after { display: none; }
+      .hero-grid, .grid-3, .tradeoff-grid { grid-template-columns: 1fr; }
       section { padding: 52px 6vw; }
       header { padding: 54px 6vw 44px; }
       .model-detail th,
@@ -255,7 +203,7 @@
   </header>
 
   <nav>
-    <a href="#series">Related Course</a>
+    <a href="#series">Explore Further</a>
     <a href="#models">Business Models</a>
     <a href="#commercialization">Commercialization</a>
     <a href="#financing">Financing</a>
@@ -318,7 +266,7 @@
       </div>
       <div class="card model-card" data-model="enabled">
         <h3>Carbon-Enabled Organization</h3>
-        <p>Carbon funds another mission.</p>
+        <p>Carbon is a funding source.</p>
         <p><span class="tag">TA providers</span><span class="tag">NGOs</span><span class="tag">cooperatives</span></p>
       </div>
     </div>
