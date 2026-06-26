@@ -120,6 +120,51 @@
     .model-card { cursor: pointer; transition: transform .18s ease, box-shadow .18s ease; }
     .model-card:hover { transform: translateY(-3px); box-shadow: 0 18px 50px rgba(31,42,36,.1); }
     .model-card.active { outline: 3px solid rgba(47,111,78,.35); background: #f8fff5; }
+
+    .same-project {
+      background: #fffdf8;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 24px;
+      margin-bottom: 18px;
+      max-width: 1120px;
+    }
+    .same-project strong {
+      display: block;
+      font-size: 1.15rem;
+      margin-bottom: 8px;
+    }
+    .project-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .project-stat {
+      background: var(--soft);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: .92rem;
+      color: var(--ink);
+    }
+    .model-detail {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+    }
+    .model-detail th,
+    .model-detail td {
+      border-top: 1px solid var(--line);
+      padding: 14px 0;
+      text-align: left;
+      vertical-align: top;
+    }
+    .model-detail th {
+      width: 220px;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
     .resource-note {
       color: var(--muted);
       font-size: .95rem;
@@ -185,6 +230,14 @@
       .journey div:after { display: none; }
       section { padding: 52px 6vw; }
       header { padding: 54px 6vw 44px; }
+      .model-detail th,
+      .model-detail td {
+        display: block;
+        width: 100%;
+      }
+      .model-detail td {
+        padding-top: 0;
+      }
     }
   </style>
 </head>
@@ -242,6 +295,15 @@
       <h2>Three ways organizations use carbon</h2>
       <p class="lead">Every carbon project may look similar on the ground, but organizations participate in carbon markets for very different reasons. Understanding that objective explains why they make different commercialization and financing decisions.</p>
       <p class="lead">Click each model to see how the same underlying project changes when the organization changes.</p>
+    </div>
+    <div class="same-project">
+      <strong>Same project. Different organizations.</strong>
+      <p>Imagine the same agroforestry project. Nothing changes except who is running it.</p>
+      <div class="project-stats">
+        <span class="project-stat">500 farmers</span>
+        <span class="project-stat">1,000 hectares</span>
+        <span class="project-stat">100,000 future carbon credits</span>
+      </div>
     </div>
     <div class="grid-3">
       <div class="card model-card active" data-model="developer">
@@ -341,11 +403,13 @@
       const d = modelData[key];
       output.innerHTML = `
         <h3>${d.title}</h3>
-        <p><strong>Primary objective:</strong> ${d.objective}</p>
-        <p><strong>How carbon is viewed:</strong> ${d.role}</p>
-        <p><strong>Commercialization mindset:</strong> ${d.commercialization}</p>
-        <p><strong>Financing mindset:</strong> ${d.financing}</p>
-        <p><strong>Success looks like:</strong> ${d.success}</p>
+        <table class="model-detail">
+          <tr><th>Primary objective</th><td>${d.objective}</td></tr>
+          <tr><th>How carbon is viewed</th><td>${d.role}</td></tr>
+          <tr><th>Commercialization mindset</th><td>${d.commercialization}</td></tr>
+          <tr><th>Financing mindset</th><td>${d.financing}</td></tr>
+          <tr><th>Success looks like</th><td>${d.success}</td></tr>
+        </table>
       `;
       cards.forEach(c => c.classList.toggle('active', c.dataset.model === key));
     }
