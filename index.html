@@ -241,6 +241,7 @@
     <div class="section-title">
       <h2>Three ways organizations use carbon</h2>
       <p class="lead">Every carbon project may look similar on the ground, but organizations participate in carbon markets for very different reasons. Understanding that objective explains why they make different commercialization and financing decisions.</p>
+      <p class="lead">Click each model to see how the same underlying project changes when the organization changes.</p>
     </div>
     <div class="grid-3">
       <div class="card model-card active" data-model="developer">
@@ -310,21 +311,27 @@
     const modelData = {
       developer: {
         title: 'Carbon Business',
-        test: 'If carbon disappeared, the business would probably disappear.',
-        commercialization: 'Often balances early presales for capital with spot exposure to preserve upside.',
-        financing: 'Needs risk capital because costs arrive before verification and revenue.'
+        objective: 'Generate financial returns from carbon.',
+        role: 'Carbon is the product.',
+        commercialization: 'Maximize the value of credits while balancing early cash needs against future price upside.',
+        financing: 'Raise risk capital to build and verify a portfolio of projects before revenue arrives.',
+        success: 'A profitable carbon business with repeatable project development economics.'
       },
       procurement: {
         title: 'Carbon Procurement',
-        test: 'If carbon disappeared, the organization would still exist but would need another way to meet climate or supply-chain goals.',
-        commercialization: 'Often favors long-term certainty over market upside.',
-        financing: 'Can justify advance payments because credit supply has strategic value to the buyer.'
+        objective: 'Secure a long-term supply of credits.',
+        role: 'Carbon is an input to the organization\'s climate or supply-chain strategy.',
+        commercialization: 'Prioritize certainty, quality, and delivery reliability over maximum resale value.',
+        financing: 'Use corporate capital or advance buyer support to secure future credit supply.',
+        success: 'Reliable access to high-quality credits that support climate commitments.'
       },
       enabled: {
         title: 'Carbon-Enabled Organization',
-        test: 'If carbon disappeared, the mission would remain but one funding source would shrink.',
-        commercialization: 'Often prioritizes predictable revenue over maximum price.',
-        financing: 'Often needs grants, concessional capital, or buyer support because carbon is serving a broader mission.'
+        objective: 'Deliver another mission using carbon as one funding source.',
+        role: 'Carbon helps fund extension services, livelihoods, biodiversity, resilience, or landscape restoration.',
+        commercialization: 'Favor predictable revenue that supports the mission rather than chasing maximum spot-market upside.',
+        financing: 'Blend grants, concessional capital, buyer support, and carbon revenue because carbon rarely carries the whole mission alone.',
+        success: 'Stronger farms, better livelihoods, restored landscapes, or more sustainable advisory services.'
       }
     };
 
@@ -334,9 +341,11 @@
       const d = modelData[key];
       output.innerHTML = `
         <h3>${d.title}</h3>
-        <p><strong>Simple test:</strong> ${d.test}</p>
-        <p><strong>Commercialization logic:</strong> ${d.commercialization}</p>
-        <p><strong>Financing logic:</strong> ${d.financing}</p>
+        <p><strong>Primary objective:</strong> ${d.objective}</p>
+        <p><strong>How carbon is viewed:</strong> ${d.role}</p>
+        <p><strong>Commercialization mindset:</strong> ${d.commercialization}</p>
+        <p><strong>Financing mindset:</strong> ${d.financing}</p>
+        <p><strong>Success looks like:</strong> ${d.success}</p>
       `;
       cards.forEach(c => c.classList.toggle('active', c.dataset.model === key));
     }
